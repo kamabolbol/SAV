@@ -1,0 +1,27 @@
+# Python
+*.pyc
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Docker volumes (data)
+data/
+chroma_db/
+logs/
+*.sqlite3
+
+# Environnement et secrets
+.env
+*.env
+
+# Fichiers de configuration sensibles
+odoo/config/odoo.conf
+
+# Modèles Ollama (volumineux)
+data/ollama/
+
+# Logs
+*.log
+*.pid
+*.lock
+.DS_Store

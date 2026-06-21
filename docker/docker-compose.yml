@@ -1,0 +1,100 @@
+services:
+  db:
+    image: postgres:15
+    container_name: erp_postgres
+    environment:
+      POSTGRES_USER: odoo
+      POSTGRES_PASSWORD: odoo
+      POSTGRES_DB: postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5433:5432"
+    networks:
+      - erp-network
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+
+  ollama:
+    image: ollama/ollama:latest
+    container_name: erp_ollama
+    volumes:
+      - ollama_data:/root/.ollama
+    ports:
+      - "11435:11434"
+    networks:
+      - erp-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "ollama list || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    deploy:
+      resources:
+        limits:
+          memory: 3G
+
+  odoo:
+    image: odoo:18.0
+    container_name: erp_odoo
+    depends_on:
+      - db
+      - ollama
+    ports:
+      - "8070:8069"
+    volumes:
+      - ../odoo/addons:/mnt/extra-addons   # ← corrigé
+      - ../odoo/config:/etc/odoo            # ← corrigé
+    environment:
+      - HOST=db
+      - USER=odoo
+      - PASSWORD=odoo
+    networks:
+      - erp-network
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+
+  ai-gateway:
+    build: ../ai_gateway
+    container_name: erp_ai_gateway
+    ports:
+      - "8000:8000"
+    volumes:
+      - ../ai_gateway:/app
+      - ../data/chroma:/app/chroma_db
+      - ../ai_gateway/logs:/app/logs
+    environment:
+      - OLLAMA_URL=http://ollama:11434
+      - DB_HOST=db
+      - DB_USER=odoo
+      - DB_PASSWORD=odoo
+      - CHROMA_PATH=/app/chroma_db
+      - AI_MODEL=phi3:mini
+    depends_on:
+      ollama:
+        condition: service_healthy
+      db:
+        condition: service_started
+    networks:
+      - erp-network
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+
+volumes:
+  postgres_data:
+  ollama_data:
+  chroma_data:
+
+networks:
+  erp-network:
+    driver: bridge

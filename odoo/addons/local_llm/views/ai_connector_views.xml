@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_ai_connector_form" model="ir.ui.view">
+        <field name="name">ai.connector.form</field>
+        <field name="model">ai.connector</field>
+        <field name="arch" type="xml">
+            <form string="AI Assistant">
+                <group>
+                    <field name="prompt" placeholder="Posez votre question..." nolabel="1"/>
+                </group>
+                <group>
+                    <field name="model" invisible="1"/>
+                </group>
+                <footer>
+                    <button name="action_ask_ai" string="Demander à l'IA" type="object" class="btn-primary"/>
+                </footer>
+                <group string="Réponse" colspan="2">
+                    <field name="response" readonly="1" nolabel="1" colspan="4"/>
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_ai_connector" model="ir.actions.act_window">
+        <field name="name">Assistant IA</field>
+        <field name="res_model">ai.connector</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem id="menu_ai_root" name="IA" sequence="100"/>
+    <menuitem id="menu_ai_chat" name="Chat avec l'IA" parent="menu_ai_root" action="action_ai_connector"/>
+</odoo>
