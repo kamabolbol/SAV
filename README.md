@@ -63,24 +63,8 @@ L’architecture suit un pattern **monolithique modulaire** (pour la simplicité
 ### Vue globale (couches)
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│                      Couche Présentation                    │
-│                     (Odoo 18 / UI)                          │
-└─────────────────────────────────────────────────────────────┘
-                              │ REST API
-┌─────────────────────────────────────────────────────────────┐
-│                    Couche Application / API                 │
-│                  (FastAPI - AI Gateway)                     │
-│ ┌────────────────────────────────────────────────────────┐  │
-│ │ Security / Prompt / Router / Context / Audit           │  │
-│ └────────────────────────────────────────────────────────┘  │
-└──────┬──────────────────────────┬────────────────────────── ┘
-       │                          │
-┌──────▼───────────────┐  ┌───────▼────────────────────────── ┐
-│  Couche Métier / IA  │  │  Couche Données / Connaissances   │
-│     (Ollama)         │  │     (ChromaDB + PostgreSQL)       │
-│   Modèle LLM Local   │  │  Embeddings & ERP Data            │
-└──────────────────────┘  └───────────────────────────────────┘
+<img width="561" height="451" alt="image" src="https://github.com/user-attachments/assets/285768e3-aa3e-48b7-b8e2-f0fec84467ab" />
+
 ```
 
 ### Stack technique détaillée
