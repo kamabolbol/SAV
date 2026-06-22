@@ -37,7 +37,9 @@ en rédigeant des descriptions SEO pour les fiches produits ou en proposant des 
  (PDF, contrats, procédures, historiques de tickets) stockée dans une base vectorielle, afin de fournir des réponses
  factuelles et précises, par exemple sur une politique de retour ou une clause contractuelle.
 Enfin, il est capable d’**analyser les données structurées
-** de PostgreSQL (ventes, stocks, clients) pour en extraire des tendances, des indicateurs de performance et des recommandations stratégiques, comme l’identification des cinq produits les plus rentables du mois.
+** de PostgreSQL (ventes, stocks, clients) pour en extraire des tendances,
+ des indicateurs de performance et des recommandations stratégiques,
+ comme l’identification des cinq produits les plus rentables du mois.
 ---
 
 ## 🧱 Modularité du système
