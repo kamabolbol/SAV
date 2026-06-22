@@ -65,21 +65,6 @@ L’architecture suit un pattern **monolithique modulaire** (pour la simplicité
 ```
 <img width="561" height="451" alt="image" src="https://github.com/user-attachments/assets/285768e3-aa3e-48b7-b8e2-f0fec84467ab" />
 
-```
-
-### Stack technique détaillée
-
-| Composant | Technologie | Rôle |
-| :--- | :--- | :--- |
-| **ERP** | Odoo 18 (Community) | Interface utilisateur, gestion des données métier (CRM, Ventes, Produits). |
-| **API Gateway** | FastAPI (Python 3.11) | Orchestration, sécurité, routage des requêtes IA. |
-| **LLM Server** | Ollama | Exécution des modèles locaux (API REST). |
-| **Modèles LLM** | `tinyllama`, `phi3:mini` | Inférence légère (adaptée aux 8 Go de RAM). |
-| **Vector DB** | ChromaDB (embarqué) | Stockage et recherche d'embeddings pour le RAG. |
-| **Embeddings** | Sentence-Transformers (`all-MiniLM-L6-v2`) | Génération de représentations vectorielles des documents. |
-| **Base Relationnelle** | PostgreSQL 15 | Données Odoo + logs d’audit. |
-| **Orchestration** | Docker Compose | Gestion des conteneurs, réseaux, et volumes. |
-
 ### Flux de données (requête IA)
 
 1.  **Déclenchement** : L'utilisateur saisit une requête dans Odoo.
