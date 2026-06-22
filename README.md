@@ -9,20 +9,35 @@ Plateforme IA locale intégrée à Odoo 18 avec Ollama , FastAPI et ChromaDB.
 cd docker
 docker compose up -d
 ./init-ollama.sh
-Voici une description complète du projet **Local AI ERP Assistant**, structurée selon les axes **technique**, **fonctionnel**, **modulaire** et **architectural**.
+Voici une description complète du projet **Local AI ERP Assistant**, structurée selon les axes **technique**, **fonctionnel**,
+ **modulaire** et **architectural**.
 
 ---
 
 ## 📌 Vue d’ensemble (Executive Summary)
 
-**Local AI ERP Assistant** est une plateforme d’intelligence artificielle générative **100 % locale** intégrée à l’ERP Odoo 18. Elle vise à transformer les processus métier en permettant aux utilisateurs d’interagir avec leurs données via le langage naturel, sans jamais exposer les informations sensibles à des services cloud externes. La solution repose sur une architecture conteneurisée (Docker) orchestrant un LLM open-source, une base de données vectorielle pour la recherche sémantique, et une API Gateway assurant la sécurité, le routage des modèles et l’audit.
+**Local AI ERP Assistant** est une plateforme d’intelligence artificielle générative **100 % locale**
+ intégrée à l’ERP Odoo 18. Elle vise à transformer les processus métier en permettant aux utilisateurs
+d’interagir avec leurs données via le langage naturel, sans jamais exposer les informations sensibles à
+ des services cloud externes. La solution repose sur une architecture conteneurisée (Docker) orchestrant
+un LLM open-source, une base de données vectorielle pour la recherche sémantique, et une API Gateway assurant la sécurité, le routage
+des modèles et l’audit.
 
 ---
 
 ## 🎯 Description Fonctionnelle
 
 
-La plateforme couvre quatre cas d’usage métier essentiels. Elle propose d’abord un **assistant conversationnel intelligent**, accessible via une fenêtre modale dans Odoo, qui guide les utilisateurs et répond aux questions générales sur l’ERP et les processus internes. Elle assure également la **génération automatique de contenu métier**, en rédigeant des descriptions SEO pour les fiches produits ou en proposant des réponses professionnelles aux emails clients, directement intégrées au CRM ou au Helpdesk. Au-delà du simple dialogue, le système exploite un mécanisme de **RAG (Retrieval-Augmented Generation)** qui lui permet d’interroger la documentation interne de l’entreprise (PDF, contrats, procédures, historiques de tickets) stockée dans une base vectorielle, afin de fournir des réponses factuelles et précises, par exemple sur une politique de retour ou une clause contractuelle. Enfin, il est capable d’**analyser les données structurées** de PostgreSQL (ventes, stocks, clients) pour en extraire des tendances, des indicateurs de performance et des recommandations stratégiques, comme l’identification des cinq produits les plus rentables du mois.
+La plateforme couvre quatre cas d’usage métier essentiels. Elle propose d’abord un **assistant conversationnel
+ intelligent**, accessible via une fenêtre modale dans Odoo, qui guide les utilisateurs et répond aux questions
+ générales sur l’ERP et les processus internes. Elle assure également la **génération automatique de contenu métier**,
+en rédigeant des descriptions SEO pour les fiches produits ou en proposant des réponses professionnelles aux emails clients,
+ directement intégrées au CRM ou au Helpdesk. Au-delà du simple dialogue, le système exploite un mécanisme de
+**RAG (Retrieval-Augmented Generation)** qui lui permet d’interroger la documentation interne de l’entreprise
+ (PDF, contrats, procédures, historiques de tickets) stockée dans une base vectorielle, afin de fournir des réponses
+ factuelles et précises, par exemple sur une politique de retour ou une clause contractuelle.
+Enfin, il est capable d’**analyser les données structurées
+** de PostgreSQL (ventes, stocks, clients) pour en extraire des tendances, des indicateurs de performance et des recommandations stratégiques, comme l’identification des cinq produits les plus rentables du mois.
 ---
 
 ## 🧱 Modularité du système
@@ -37,12 +52,14 @@ L’architecture est découpée en modules logiques faiblement couplés, facilit
 2.  **Module d’Orchestration (AI Gateway)** : Cerveau logique de la plateforme.
     *   **Security Layer** : Filtrage des prompts (injections, mots sensibles) et authentification.
     *   **Prompt Engine** : Gestion de templates de prompts versionnés (pour éviter le "hard-coding").
-    *   **Model Router** : Sélection automatique du modèle LLM en fonction de la tâche (ex: `tinyllama` pour le chat, `gemma` pour le résumé, `mistral` pour l’analyse).
+    *   **Model Router** : Sélection automatique du modèle LLM en fonction de la tâche (ex: `tinyllama` pour le chat,
+`gemma` pour le résumé, `mistral` pour l’analyse).
     *   **Context Manager** : Enrichissement du contexte avant l’envoi au LLM (données utilisateur, métadonnées).
     *   **Audit Logger** : Traçabilité de toutes les interactions (utilisateur, prompt, réponse, latence, modèle utilisé).
 
 3.  **Module de RAG (Vector Store)** :
-    *   Pipeline d’ingestion : découpage (chunking) des documents → génération d’embeddings (via `sentence-transformers`) → stockage dans **ChromaDB** (mode embarqué).
+    *   Pipeline d’ingestion : découpage (chunking) des documents → génération d’embeddings (via `sentence-transformers`)
+→ stockage dans **ChromaDB** (mode embarqué).
     *   Pipeline de requête : similarité cosinus → récupération des chunks pertinents → injection dans le prompt.
 
 4.  **Module d’Inférence (LLM Engine)** :
@@ -58,7 +75,8 @@ L’architecture est découpée en modules logiques faiblement couplés, facilit
 
 ## 🏛️ Architecture Technique
 
-L’architecture suit un pattern **monolithique modulaire** (pour la simplicité de déploiement) mais conçue pour évoluer vers des microservices (via une séparation stricte des responsabilités et une communication standardisée en REST/JSON).
+L’architecture suit un pattern **monolithique modulaire** (pour la simplicité de déploiement) mais conçue pour évoluer
+vers des microservices (via une séparation stricte des responsabilités et une communication standardisée en REST/JSON).
 
 ### Vue globale (couches)
 
