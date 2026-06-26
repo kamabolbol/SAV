@@ -14,7 +14,7 @@ Voici une description complète du projet **Local AI ERP Assistant**, structuré
 
 ---
 
-## 📌 Vue d’ensemble (Executive Summary)
+##  Vue d’ensemble (Executive Summary)
 
 **Local AI ERP Assistant** est une plateforme d’intelligence artificielle générative **100 % locale**
  intégrée à l’ERP Odoo 18. Elle vise à transformer les processus métier en permettant aux utilisateurs
@@ -25,7 +25,7 @@ des modèles et l’audit.
 
 ---
 
-## 🎯 Description Fonctionnelle
+##  Description Fonctionnelle
 
 
 La plateforme couvre quatre cas d’usage métier essentiels. Elle propose d’abord un **assistant conversationnel
@@ -42,7 +42,7 @@ Enfin, il est capable d’**analyser les données structurées
  comme l’identification des cinq produits les plus rentables du mois.
 ---
 
-## 🧱 Modularité du système
+##  Modularité du système
 
 L’architecture est découpée en modules logiques faiblement couplés, facilitant la maintenance et l’évolution :
 
@@ -75,7 +75,7 @@ L’architecture est découpée en modules logiques faiblement couplés, facilit
 
 ---
 
-## 🏛️ Architecture Technique
+##  Architecture Technique
 
 L’architecture suit un pattern **monolithique modulaire** (pour la simplicité de déploiement) mais conçue pour évoluer
 vers des microservices (via une séparation stricte des responsabilités et une communication standardisée en REST/JSON).
@@ -101,7 +101,7 @@ vers des microservices (via une séparation stricte des responsabilités et une 
 
 ---
 
-## 💡 Points d’innovation et atouts techniques
+##  Points d’innovation et atouts techniques
 
 - **Souveraineté des données** : Aucun appel externe ; tout s’exécute dans l’infrastructure de l’entreprise.
 - **Sécurité IA intégrée** : Filtrage proactif des "prompt injections" et détection des demandes sensibles (ex: *“donne-moi les salaires”*).
@@ -114,11 +114,11 @@ vers des microservices (via une séparation stricte des responsabilités et une 
 
 ---
 
-## 🔍 Observabilité & Monitoring
+##  Observabilité & Monitoring
 
 La plateforme intègre une stack d'observabilité complète pour le monitoring, le debugging et l'analyse de performance. Elle est entièrement conteneurisée et préconfigurée.
 
-### 🧩 Composants intégrés
+###  Composants intégrés
 
 | Outil | Rôle | Port |
 | :--- | :--- | :--- |
@@ -128,7 +128,7 @@ La plateforme intègre une stack d'observabilité complète pour le monitoring, 
 | **Tempo** | Traçage distribué (OpenTelemetry) | 3200, 4317, 4318 |
 | **Promtail** | Collecteur de logs Docker (scraping intelligent) | 9080 |
 
-### 🚀 Accès rapide
+###  Accès rapide
 
 | Service | URL | Identifiants |
 | :--- | :--- | :--- |
@@ -137,7 +137,7 @@ La plateforme intègre une stack d'observabilité complète pour le monitoring, 
 | **Loki** | http://localhost:3100 | – |
 | **Tempo** | http://localhost:3200 | – |
 
-### 📊 Métriques exposées
+###  Métriques exposées
 
 L’API Gateway (`ai-gateway`) expose les métriques suivantes via `/metrics` :
 
@@ -145,7 +145,7 @@ L’API Gateway (`ai-gateway`) expose les métriques suivantes via `/metrics` :
 - `ai_request_latency_seconds` : latence des requêtes (p50/p95/p99)
 - `ai_errors_total` : nombre d’erreurs par type
 
-### 🧪 Exemple de requête dans Grafana
+###  Exemple de requête dans Grafana
 
 1. Connectez-vous à **Grafana** (`http://localhost:3000`).
 2. Allez dans **Explore**.
@@ -153,7 +153,7 @@ L’API Gateway (`ai-gateway`) expose les métriques suivantes via `/metrics` :
 4. Exécutez la requête : `rate(ai_requests_total[1m])`
 5. Visualisez le débit de requêtes en temps réel.
 
-### 📝 Logs structurés
+### Logs structurés
 
 Les logs de l’API Gateway sont au format JSON et incluent :
 
