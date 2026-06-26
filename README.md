@@ -108,3 +108,61 @@ vers des microservices (via une séparation stricte des responsabilités et une 
 - **RAG hybride** : Combinaison de connaissances interne du LLM + données métier en temps réel + documents externes.
 - **Modularité Future** : La séparation Gateway / LLM / Vector Store permet de remplacer facilement le modèle (ex: passer à Mistral) ou d’ajouter un cache Redis sans impacter Odoo.
 - **Adaptabilité Matérielle** : Choix de modèles quantifiés (Q4_0) et réduction de la taille des contextes pour garantir la stabilité sur 8 Go de RAM.
+
+
+
+
+---
+
+## 🔍 Observabilité & Monitoring
+
+La plateforme intègre une stack d'observabilité complète pour le monitoring, le debugging et l'analyse de performance. Elle est entièrement conteneurisée et préconfigurée.
+
+### 🧩 Composants intégrés
+
+| Outil | Rôle | Port |
+| :--- | :--- | :--- |
+| **Grafana** | Visualisation unifiée (métriques, logs, traces) | 3000 |
+| **Prometheus** | Collecte et stockage des métriques (requêtes/sec, latence, erreurs) | 9090 |
+| **Loki** | Agrégation de logs structurés (JSON) | 3100 |
+| **Tempo** | Traçage distribué (OpenTelemetry) | 3200, 4317, 4318 |
+| **Promtail** | Collecteur de logs Docker (scraping intelligent) | 9080 |
+
+### 🚀 Accès rapide
+
+| Service | URL | Identifiants |
+| :--- | :--- | :--- |
+| **Grafana** | http://localhost:3000 | `admin` / `admin` |
+| **Prometheus** | http://localhost:9090 | – |
+| **Loki** | http://localhost:3100 | – |
+| **Tempo** | http://localhost:3200 | – |
+
+### 📊 Métriques exposées
+
+L’API Gateway (`ai-gateway`) expose les métriques suivantes via `/metrics` :
+
+- `ai_requests_total` : nombre total de requêtes IA
+- `ai_request_latency_seconds` : latence des requêtes (p50/p95/p99)
+- `ai_errors_total` : nombre d’erreurs par type
+
+### 🧪 Exemple de requête dans Grafana
+
+1. Connectez-vous à **Grafana** (`http://localhost:3000`).
+2. Allez dans **Explore**.
+3. Sélectionnez **Prometheus** comme source.
+4. Exécutez la requête : `rate(ai_requests_total[1m])`
+5. Visualisez le débit de requêtes en temps réel.
+
+### 📝 Logs structurés
+
+Les logs de l’API Gateway sont au format JSON et incluent :
+
+```json
+{
+  "timestamp": "2026-06-27T10:00:00Z",
+  "severity": "INFO",
+  "name": "ai-gateway",
+  "message": "Request processed",
+  "request_id": "abc-123",
+  "trace_id": "4bf92f3577b34da6"
+}
