@@ -53,6 +53,9 @@ services:
       - HOST=db
       - USER=odoo
       - PASSWORD=odoo
+    labels:
+      - "promtail.scrape=true"
+      - "promtail.service=odoo"
     networks:
       - erp-network
     restart: unless-stopped
@@ -77,6 +80,9 @@ services:
       - DB_PASSWORD=odoo
       - CHROMA_PATH=/app/chroma_db
       - AI_MODEL=phi3:mini
+    labels:
+      - "promtail.scrape=true"
+      - "promtail.service=ai-gateway"
     depends_on:
       ollama:
         condition: service_healthy

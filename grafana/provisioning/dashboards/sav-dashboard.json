@@ -1,0 +1,69 @@
+{
+  "title": "SAV AI Assistant Monitoring",
+  "uid": "sav-observability",
+  "panels": [
+    {
+      "id": 1,
+      "title": "AI Requests per Second",
+      "type": "graph",
+      "targets": [
+        {
+          "expr": "rate(ai_requests_total[1m])",
+          "legendFormat": "requests/sec",
+          "refId": "A"
+        }
+      ],
+      "gridPos": {"h": 8, "w": 12, "x": 0, "y": 0}
+    },
+    {
+      "id": 2,
+      "title": "AI Request Latency (p50/p95/p99)",
+      "type": "graph",
+      "targets": [
+        {"expr": "histogram_quantile(0.50, sum(rate(ai_request_latency_seconds_bucket[1m])) by (le))", "legendFormat": "p50"},
+        {"expr": "histogram_quantile(0.95, sum(rate(ai_request_latency_seconds_bucket[1m])) by (le))", "legendFormat": "p95"},
+        {"expr": "histogram_quantile(0.99, sum(rate(ai_request_latency_seconds_bucket[1m])) by (le))", "legendFormat": "p99"}
+      ],
+      "gridPos": {"h": 8, "w": 12, "x": 12, "y": 0}
+    },
+    {
+      "id": 3,
+      "title": "AI Error Rate",
+      "type": "graph",
+      "targets": [
+        {
+          "expr": "sum(rate(ai_errors_total[1m])) / sum(rate(ai_requests_total[1m]))",
+          "legendFormat": "error-rate"
+        }
+      ],
+      "gridPos": {"h": 8, "w": 12, "x": 0, "y": 8}
+    },
+    {
+      "id": 4,
+      "title": "Logs (Loki)",
+      "type": "logs",
+      "targets": [
+        {
+          "expr": "{container=\"erp_ai_gateway\"}",
+          "refId": "A"
+        }
+      ],
+      "gridPos": {"h": 8, "w": 12, "x": 12, "y": 8}
+    },
+    {
+      "id": 5,
+      "title": "Traces (Tempo)",
+      "type": "traces",
+      "targets": [
+        {
+          "queryType": "traceql",
+          "refId": "A"
+        }
+      ],
+      "gridPos": {"h": 8, "w": 24, "x": 0, "y": 16}
+    }
+  ],
+  "time": {"from": "now-1h", "to": "now"},
+  "tags": ["sav", "ai", "observability"],
+  "version": 1
+}

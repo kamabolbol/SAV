@@ -23,25 +23,29 @@ scrape_configs:
       - source_labels: ['__meta_docker_container_label_promtail_service']
         target_label: 'service'
     pipeline_stages:
+      # 1. Décapsuler le wrapper Docker
       - json:
           expressions:
             log: log
             stream: stream
             time: time
+      # 2. Parser le JSON interne (votre application)
       - json:
           expressions:
             level: level
             request_id: request_id
             trace_id: trace_id
             status: status
-            model_name: model_name
+            message: message
+            # Ajoutez ici les champs spécifiques à votre appli (ex: user_id, endpoint, model_name)
           source: log
+      # 3. Horodatage à partir du champ time de Docker
       - timestamp:
           source: time
           format: RFC3339Nano
+      # 4. Ajouter les champs les plus utiles comme labels pour faciliter les recherches
       - labels:
           level: level
           request_id: request_id
           trace_id: trace_id
           status: status
-          model_name: model_name
