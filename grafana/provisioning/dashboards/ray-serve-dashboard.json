@@ -1,0 +1,70 @@
+{
+  "title": "Ray Serve Inference System",
+  "uid": "ray-serve-observability",
+  "panels": [
+    {
+      "id": 1,
+      "title": "Requests per Second (à venir)",
+      "type": "graph",
+      "targets": [
+        {
+          "expr": "rate(serve_request_count[1m])",
+          "legendFormat": "rps",
+          "refId": "A"
+        }
+      ],
+      "gridPos": {"h": 8, "w": 12, "x": 0, "y": 0},
+      "description": "Données Prometheus – en attente du service"
+    },
+    {
+      "id": 2,
+      "title": "Latency p50/p95/p99 (à venir)",
+      "type": "graph",
+      "targets": [
+        {"expr": "histogram_quantile(0.50, sum(rate(serve_request_latency_seconds_bucket[1m])) by (le))", "legendFormat": "p50"},
+        {"expr": "histogram_quantile(0.95, sum(rate(serve_request_latency_seconds_bucket[1m])) by (le))", "legendFormat": "p95"},
+        {"expr": "histogram_quantile(0.99, sum(rate(serve_request_latency_seconds_bucket[1m])) by (le))", "legendFormat": "p99"}
+      ],
+      "gridPos": {"h": 8, "w": 12, "x": 12, "y": 0}
+    },
+    {
+      "id": 3,
+      "title": "Error Rate (à venir)",
+      "type": "graph",
+      "targets": [
+        {
+          "expr": "sum(rate(serve_error_count[1m])) / sum(rate(serve_request_count[1m]))",
+          "legendFormat": "error-rate"
+        }
+      ],
+      "gridPos": {"h": 8, "w": 12, "x": 0, "y": 8}
+    },
+    {
+      "id": 4,
+      "title": "Logs (Loki) – à venir",
+      "type": "logs",
+      "targets": [
+        {
+          "expr": "{container=\"ray-serve\"}",
+          "refId": "A"
+        }
+      ],
+      "gridPos": {"h": 8, "w": 12, "x": 12, "y": 8}
+    },
+    {
+      "id": 5,
+      "title": "Traces (Tempo) – à venir",
+      "type": "traces",
+      "targets": [
+        {
+          "queryType": "traceql",
+          "refId": "A"
+        }
+      ],
+      "gridPos": {"h": 8, "w": 24, "x": 0, "y": 16}
+    }
+  ],
+  "time": {"from": "now-1h", "to": "now"},
+  "tags": ["ray", "serve", "observability"],
+  "version": 1
+}
